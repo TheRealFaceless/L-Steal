@@ -17,6 +17,7 @@ public class GeneralListener {
         eventHandler.addListener(PlayerInteractEvent.class, event -> {
             Player player = event.getPlayer();
             if(event.getHand() != EquipmentSlot.HAND) return;
+            if(!event.getAction().isRightClick()) return;
             if(player.getInventory().getItemInMainHand().getType().isAir()) return;
             ItemStack item = player.getInventory().getItemInMainHand();
             if(!Items.isHeart(item)) return;

@@ -35,7 +35,7 @@ public class LStealCommand extends Command {
         String[] args = context.args();
         if(args.length != 2) return;
         String amountStr = args[1];
-        int amount = 0;
+        int amount;
         try {
             amount = Integer.parseInt(amountStr);
         }catch (NumberFormatException e) {
@@ -54,6 +54,5 @@ public class LStealCommand extends Command {
         } else {
             MessageManager.getMessage(MessageManager.notEnoughHeartsToWithdrawPath).send(player);
         }
-
     }
 }

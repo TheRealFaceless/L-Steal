@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class MainConfig {
     private static final Config MAIN_CONFIG = ConfigManager.getManager().createOrGetConfig("config.yml");
 
@@ -28,7 +29,7 @@ public class MainConfig {
 
     public static void init() {
         Map<String, Object> values = new HashMap<>();
-        values.put(maxHeartLimit, 20);
+        values.put(maxHeartLimit, 40);
         values.put(minHeartLimit, 5);
         values.put(reviveBeaconEnabled, true);
         values.put(heartCraftingEnabled, true);
@@ -36,7 +37,7 @@ public class MainConfig {
 
         values.put(heartMaterial, Material.RED_DYE.name());
         values.put(heartItemName, "&cHeart");
-        values.put(heartItemLore, List.of("Line 1", "Line 2"));
+        values.put(heartItemLore, List.of("&eLine 1", "&eLine 2"));
 
         values.put(heartRecipe, "");
         values.put(reviveBeaconRecipe, "");
@@ -94,13 +95,12 @@ public class MainConfig {
     }
 
     public static List<String> getHeartItemLore() {
-        List<String> lore;
         try {
-            lore = getConfigValue(heartItemLore, List.class);
-        }catch (ClassCastException | NullPointerException e) {
-            throw new RuntimeException("Error getting heart item lore.", e);
-        }
-        return lore;
+            @SuppressWarnings("unchecked")
+            List<String> lore = getConfigValue(heartItemLore, List.class);
+            return lore;
+        }catch (ClassCastException | NullPointerException ignored) {}
+        return List.of();
     }
 
     private static <T> T getConfigValue(String path, Class<T> clazz) {

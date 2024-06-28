@@ -58,7 +58,7 @@ public class MessageManager {
         Message configReloaded = new Message(configReloadedPath, "&aConfiguration files reloaded after {ms}.", MessageType.CHAT, MessageFormat.LEGACY);
         Message invalidArgument = new Message(invalidArgumentPath, "&cInvalid Argument!", MessageType.CHAT, MessageFormat.LEGACY);
         Message consumedHearts = new Message(consumedHeartsPath, "&aYou have consumed a heart", MessageType.CHAT, MessageFormat.LEGACY);
-        Message withdrewHearts = new Message(withdrewHeartsPath, "&aSuccessfully withdrew {amount} hearts!", MessageType.CHAT, MessageFormat.LEGACY);
+        Message withdrewHearts = new Message(withdrewHeartsPath, "&aSuccessfully withdrew {amount} heart(s)!", MessageType.CHAT, MessageFormat.LEGACY);
         Message notEnoughHeartsToWithdraw = new Message(notEnoughHeartsToWithdrawPath, "&cNot enough hearts to withdraw!", MessageType.CHAT, MessageFormat.LEGACY);
 
         registerMessage(configReloaded);
