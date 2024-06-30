@@ -43,16 +43,16 @@ public enum MessageType {
             BossBar bossBar;
             if (message.getFormat() == MessageFormat.LEGACY) bossBar = BossBar.bossBar(TextContext.formatLegacy(
                     message.getText()),
-                    0,
+                    1,
                     message.getBossbarColor() == null ? BossBar.Color.PURPLE : message.getBossbarColor(),
                     message.getBossbarOverlay() == null ? BossBar.Overlay.NOTCHED_6 : message.getBossbarOverlay());
             else bossBar = BossBar.bossBar(TextContext.format(
                     message.getText()),
-                    0,
+                    1,
                     message.getBossbarColor() == null ? BossBar.Color.PURPLE : message.getBossbarColor(),
                     message.getBossbarOverlay() == null ? BossBar.Overlay.NOTCHED_6 : message.getBossbarOverlay());
             player.showBossBar(bossBar);
-            Bukkit.getScheduler().runTaskLater(LSteal.getPlugin(), ()-> player.hideBossBar(bossBar), 120);
+            if(message.isBossbarUnsend()) Bukkit.getScheduler().runTaskLater(LSteal.getPlugin(), ()-> player.hideBossBar(bossBar), message.getBossbarUnsendTicks());
         }
     },
     BROADCAST {

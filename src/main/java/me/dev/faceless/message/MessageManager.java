@@ -74,7 +74,7 @@ public class MessageManager {
         Message setPlayerHealth = new Message(setPlayerHealthPath, "&aSet {player}'s hearts to {amount}", MessageType.CHAT, MessageFormat.LEGACY);
         Message addedToPlayerHealth = new Message(addedToPlayerHealthPath, "&aAdded {amount} heart(s) to {player}'s hearts", MessageType.CHAT, MessageFormat.LEGACY);
 
-        Message dummyBossbarMessage = new Message("dummy-bossbar-message", "&4Test Message (not used in code)", MessageType.BOSSBAR, MessageFormat.LEGACY, BossBar.Color.GREEN, BossBar.Overlay.NOTCHED_6);
+        Message dummyBossbarMessage = new Message("dummy-bossbar-message", "&4Test Message (not used in code)", MessageType.BOSSBAR, MessageFormat.LEGACY, BossBar.Color.GREEN, BossBar.Overlay.NOTCHED_6, true, 120);
 
         registerMessage(configReloaded);
         registerMessage(invalidArgument);

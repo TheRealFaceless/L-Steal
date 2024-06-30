@@ -23,6 +23,8 @@ public class Message {
 
     private BossBar.Color bossbarColor = BossBar.Color.PURPLE;
     private BossBar.Overlay bossbarOverlay = BossBar.Overlay.NOTCHED_6;
+    private boolean bossbarUnsend = true;
+    private int bossbarUnsendTicks = 120;
 
     public Message(String path, String text, MessageType type, MessageFormat format) {
         this.path = path;
@@ -31,13 +33,15 @@ public class Message {
         this.format = format;
     }
 
-    public Message(String path, String text, MessageType type, MessageFormat format, BossBar.Color bossbarColor, BossBar.Overlay bossbarOverlay) {
+    public Message(String path, String text, MessageType type, MessageFormat format, BossBar.Color bossbarColor, BossBar.Overlay bossbarOverlay, boolean bossbarUnsend, int bossbarUnsendTicks) {
         this.path = path;
         this.text = text;
         this.type = type;
         this.format = format;
         this.bossbarColor = bossbarColor;
         this.bossbarOverlay = bossbarOverlay;
+        this.bossbarUnsend = bossbarUnsend;
+        this.bossbarUnsendTicks = bossbarUnsendTicks;
     }
 
     public void serialize(Config config) {
@@ -48,6 +52,8 @@ public class Message {
         if(type == MessageType.BOSSBAR) {
             map.put("boss-bar-color", bossbarColor.name());
             map.put("boss-bar-overlay", bossbarOverlay.name());
+            map.put("boss-bar-unsend", bossbarUnsend);
+            map.put("boss-bar-unsend-ticks", bossbarUnsendTicks);
         }
 
         config.set(path, map, false);
@@ -70,6 +76,8 @@ public class Message {
         String text = (String) map.get("text");
         String typeString = (String) map.get("type");
         String formatString = (String) map.get("format");
+        boolean bossbarUnsend = (boolean) map.getOrDefault("boss-bar-unsend", true);
+        int bossbarUnsendTicks = (int) map.getOrDefault("boss-bar-unsend-ticks", 120);
         MessageType type;
         MessageFormat format;
 
@@ -110,7 +118,7 @@ public class Message {
                         ConsoleLogger.logInfo("Invalid BossBar overlay for message at path: " + path);
                 }
             }
-            return new Message(path, text, type, format, bossbarColor, bossbarOverlay);
+            return new Message(path, text, type, format, bossbarColor, bossbarOverlay, bossbarUnsend, bossbarUnsendTicks);
         }
         return new Message(path, text, type, format);
     }
