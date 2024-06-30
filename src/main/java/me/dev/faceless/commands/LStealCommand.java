@@ -14,13 +14,16 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class LStealCommand extends Command {
 
     public LStealCommand() {
         super("lsteal", "", "", List.of("ls"));
     }
+    public static final String admin = "ls.admin";
+    public static final String member = "ls.default";
 
-    @ICommand(permission = "ls.admin")
+    @ICommand(permission = admin)
     public void reload(CommandContext context) {
         final long startTime = System.currentTimeMillis();
         ConfigManager.getManager().reloadAll();
@@ -30,7 +33,7 @@ public class LStealCommand extends Command {
         }
     }
 
-    @ICommand(permission = "ls.admin", tabCompleter = "playerscompleter")
+    @ICommand(permission = admin, tabCompleter = "playerscompleter")
     public void set(CommandContext context) {
         if(!(context.sender() instanceof Player player)) return;
         String[] args = context.args();
@@ -59,7 +62,7 @@ public class LStealCommand extends Command {
         }
     }
 
-    @ICommand(permission = "ls.admin", tabCompleter = "playerscompleter")
+    @ICommand(permission = admin, tabCompleter = "playerscompleter")
     public void add(CommandContext context) {
         if(!(context.sender() instanceof Player player)) return;
         String[] args = context.args();
@@ -91,7 +94,7 @@ public class LStealCommand extends Command {
         }
     }
 
-    @ICommand(permission = "ls.default")
+    @ICommand(permission = member)
     public void withdraw(CommandContext context) {
         if(!(context.sender() instanceof Player player)) return;
         String[] args = context.args();

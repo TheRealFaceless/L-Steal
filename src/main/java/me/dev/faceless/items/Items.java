@@ -19,9 +19,10 @@ public class Items {
 
     public static ItemStack heartItem(int hearts) {
         List<Component> lore = new ArrayList<>();
-        MainConfig.getHeartItemLore().forEach(string -> lore.add(TextContext.formatLegacy(string).decoration(TextDecoration.ITALIC, false)));
+        MainConfig.getHeartItemLore().forEach(string -> lore.add(TextContext.hexAndLegacy(string).decoration(TextDecoration.ITALIC, false)));
+
         ItemStack heart = ItemCreator.get(MainConfig.getHeartMaterial())
-                .setName(TextContext.formatLegacy(MainConfig.getHeartItemName()).decoration(TextDecoration.ITALIC, false))
+                .setName(TextContext.hexAndLegacy(MainConfig.getHeartItemName()).decoration(TextDecoration.ITALIC, false))
                 .setCustomModelData(MainConfig.getHeartItemData())
                 .setLore(lore)
                 .build();
@@ -38,6 +39,5 @@ public class Items {
         if(!item.hasItemMeta()) return false;
         return item.getItemMeta().getPersistentDataContainer().has(HEART_KEY);
     }
-
 
 }
