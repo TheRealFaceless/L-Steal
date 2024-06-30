@@ -22,6 +22,7 @@ public class Items {
         MainConfig.getHeartItemLore().forEach(string -> lore.add(TextContext.formatLegacy(string).decoration(TextDecoration.ITALIC, false)));
         ItemStack heart = ItemCreator.get(MainConfig.getHeartMaterial())
                 .setName(TextContext.formatLegacy(MainConfig.getHeartItemName()).decoration(TextDecoration.ITALIC, false))
+                .setCustomModelData(MainConfig.getHeartItemData())
                 .setLore(lore)
                 .build();
 
@@ -32,9 +33,11 @@ public class Items {
         return heart;
     }
 
+
     public static boolean isHeart(ItemStack item) {
         if(!item.hasItemMeta()) return false;
         return item.getItemMeta().getPersistentDataContainer().has(HEART_KEY);
     }
+
 
 }

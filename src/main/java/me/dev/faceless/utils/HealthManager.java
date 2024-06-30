@@ -29,6 +29,16 @@ public class HealthManager {
         return false;
     }
 
+    public static boolean setMaxHealth(Player player, int amount, Predicate<Player> condition) {
+        if (!condition.test(player)) return false;
+        AttributeInstance healthAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        if (healthAttribute != null) {
+            healthAttribute.setBaseValue(amount);
+            return true;
+        }
+        return false;
+    }
+
     public static int getMaxHealth(Player player) {
         AttributeInstance healthAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         return healthAttribute != null ? (int) healthAttribute.getBaseValue() : 0;

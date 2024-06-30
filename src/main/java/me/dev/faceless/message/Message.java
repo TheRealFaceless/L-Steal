@@ -15,8 +15,11 @@ import java.util.Map;
 public class Message {
     private final String path;
     private String text;
+    private String tempText;
     private final MessageType type;
     private final MessageFormat format;
+
+    private int replaces = 0;
 
     private BossBar.Color bossbarColor = BossBar.Color.PURPLE;
     private BossBar.Overlay bossbarOverlay = BossBar.Overlay.NOTCHED_6;
@@ -43,20 +46,24 @@ public class Message {
         map.put("type", this.type.name());
         map.put("format", this.format.name());
         if(type == MessageType.BOSSBAR) {
-            map.put("boss-bar-color", bossbarColor);
-            map.put("boss-bar-overlay", bossbarOverlay);
+            map.put("boss-bar-color", bossbarColor.name());
+            map.put("boss-bar-overlay", bossbarOverlay.name());
         }
 
         config.set(path, map, false);
     }
 
     public Message replace(String a, String b) {
+        if(replaces == 0) tempText = text;
+        replaces++;
         text = text.replace(a, b);
         return this;
     }
 
     public void send(Player... players) {
         Arrays.asList(players).forEach(player -> this.type.send(player, this));
+        text = tempText;
+        replaces = 0;
     }
 
     public static Message deserialize(String path, Map<String, Object> map) {

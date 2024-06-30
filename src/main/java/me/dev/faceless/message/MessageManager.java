@@ -2,6 +2,7 @@ package me.dev.faceless.message;
 
 import dev.faceless.swiftlib.lib.storage.yaml.Config;
 import dev.faceless.swiftlib.lib.storage.yaml.ConfigManager;
+import net.kyori.adventure.bossbar.BossBar;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ public class MessageManager {
             " - TITLE: Sends a title message to the player.",
             " - SUBTITLE: Sends a subtitle message to the player.",
             " - BOSSBAR: Displays a boss bar message to the player.",
+            " - BROADCAST: Broadcasts a message to all players online.",
             "",
             " Message Formats:",
             " - LEGACY: Uses legacy formatting codes (e.g., &a for green).",
@@ -45,7 +47,10 @@ public class MessageManager {
             "",
             " There are currently 2 placeholders,",
             " - config-reloaded (\"{ms}\") = time it takes config to reload",
-            " - withdrew-hearts (\"{amount}\") = amount of hearts withdrawn"
+            " - withdrew-hearts (\"{amount}\") = amount of hearts withdrawn",
+            " - cannot-modify (\"{player}\") = player...",
+            " - set-player-hearts (\"{player}\", \"{amount}\") = player and amount of hearts",
+            " - added-to-player-hearts (\"{player}\", \"{amount}\") = player and amount of hearts"
     );
 
     public static final String configReloadedPath = "config-reloaded";
@@ -53,6 +58,10 @@ public class MessageManager {
     public static final String withdrewHeartsPath = "withdrew-hearts";
     public static final String consumedHeartsPath = "consumed-hearts";
     public static final String notEnoughHeartsToWithdrawPath = "not-enough-hearts-to-withdraw";
+    public static final String playerNotFoundPath = "player-not-found";
+    public static final String setPlayerHealthPath = "set-player-hearts";
+    public static final String addedToPlayerHealthPath = "added-to-player-hearts";
+    public static final String cannotModifyPath = "cannot-modify";
 
     public static void initDefaultMessages() {
         Message configReloaded = new Message(configReloadedPath, "&aConfiguration files reloaded after {ms}.", MessageType.CHAT, MessageFormat.LEGACY);
@@ -60,12 +69,24 @@ public class MessageManager {
         Message consumedHearts = new Message(consumedHeartsPath, "&aYou have consumed a heart", MessageType.CHAT, MessageFormat.LEGACY);
         Message withdrewHearts = new Message(withdrewHeartsPath, "&aSuccessfully withdrew {amount} heart(s)!", MessageType.CHAT, MessageFormat.LEGACY);
         Message notEnoughHeartsToWithdraw = new Message(notEnoughHeartsToWithdrawPath, "&cNot enough hearts to withdraw!", MessageType.CHAT, MessageFormat.LEGACY);
+        Message cannotModify = new Message(cannotModifyPath, "&c{player} either has maximum of minimum hearts!", MessageType.CHAT, MessageFormat.LEGACY);
+        Message playerNotFound = new Message(playerNotFoundPath, "&cPlayer not found!", MessageType.CHAT, MessageFormat.LEGACY);
+        Message setPlayerHealth = new Message(setPlayerHealthPath, "&aSet {player}'s hearts to {amount}", MessageType.CHAT, MessageFormat.LEGACY);
+        Message addedToPlayerHealth = new Message(addedToPlayerHealthPath, "&aAdded {amount} heart(s) to {player}'s hearts", MessageType.CHAT, MessageFormat.LEGACY);
+
+        Message dummyBossbarMessage = new Message("dummy-bossbar-message", "&4Test Message (not used in code)", MessageType.BOSSBAR, MessageFormat.LEGACY, BossBar.Color.GREEN, BossBar.Overlay.NOTCHED_6);
 
         registerMessage(configReloaded);
         registerMessage(invalidArgument);
         registerMessage(consumedHearts);
         registerMessage(withdrewHearts);
         registerMessage(notEnoughHeartsToWithdraw);
+        registerMessage(cannotModify);
+        registerMessage(playerNotFound);
+        registerMessage(setPlayerHealth);
+        registerMessage(addedToPlayerHealth);
+
+        registerMessage(dummyBossbarMessage);
 
         MESSAGES_CONFIG.getConfig().setComments(configReloadedPath , comments);
         MESSAGES_CONFIG.save();
@@ -91,13 +112,9 @@ public class MessageManager {
 
     public static Message getMessage(String path) {
         Message message = messages.get(path);
-        if(message != null) return message;
+        if(message != null && message.getText() != null) return message;
         initDefaultMessages();
         return messages.get(path);
-    }
-
-    public static List<Message> getMessages() {
-        return messages.values().stream().toList();
     }
 
     public static void reload() {

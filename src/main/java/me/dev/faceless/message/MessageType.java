@@ -54,6 +54,13 @@ public enum MessageType {
             player.showBossBar(bossBar);
             Bukkit.getScheduler().runTaskLater(LSteal.getPlugin(), ()-> player.hideBossBar(bossBar), 120);
         }
+    },
+    BROADCAST {
+        @Override
+        public void send(Player player, Message message) {
+            if(message.getFormat() == MessageFormat.LEGACY) Bukkit.broadcast(TextContext.formatLegacy(message.getText()));
+            else Bukkit.broadcast(TextContext.format(message.getText()));
+        }
     };
 
     public abstract void send(Player player, Message message);
